@@ -28,7 +28,8 @@ abstract class Veiculo {
     }
     public function setDisponivel (bool $disponivel):void{
         // void = vazio
-        
+        $this->disponivel = $disponivel;
+
     }
 
 }
