@@ -1,7 +1,7 @@
-<!-- autentificação -->
 <?php
-// define espaço para organizaçâo do codigo
 namespace Services;
+// autentificação
+// define espaço para organizaçâo do codigo
 
 // declarar classes
 // class principal
