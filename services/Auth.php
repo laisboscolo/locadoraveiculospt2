@@ -20,8 +20,50 @@ class Auth{
     private function carregarUsuarios(): void {
         
         // verificar se existe o arquivo 
-        if(file_exists(ARQUIVO_USUARIOS)){
-            
+        if (file_exists(ARQUIVO_USUARIOS)) {
+            // le o conteudo e decodifica o json para o array que um vetor
+            $conteudo = json_decode(file_get_contents(ARQUIVO_USUARIOS), true);
+            // file_get_contents =pega o arquivo usuario
+
+            // vereficar se é um array
+            $this->usuarios = is_array($conteudo) ? $conteudo : [];
+
+        } else {
+            // se ele nao existir ele força a existir
+            $this-> usuarios = [
+               [   
+                    'username' => 'admin',
+                    'password' => password_hash('admin123', PASSWORD_DEFAULT),
+                    'perfil' => 'admin'
+               ],
+               [ 
+                    'username' => 'usuario',
+                    'password' => password_hash('usuario123',PASSWORD_DEFAULT),
+                    'perfil' => 'usuario'
+               ]
+            ];
+            $this ->salvarUsuarios();
+        }
+    }
+    // funçao para salvar usuarios no arquivo JSON
+    private function salvarUsuarios():void {
+        $dir = dirname(ARQUIVO_USUARIOS);
+
+        if (!is_dir($dir)){
+            mkdir($dir, 0777,) true;
+            // esse mkdir da autorização total para editar
+        }
+
+        file_put_contents(ARQUIVO_USUARIOS, json_encode($this->usuarios,JSON_PREETY_PRINT));
+    }
+
+    // Metodo para realizar login
+    public function login(string $username, string $password): bool{
+
+        foreach ($this -> usuarios as $usuario){
+            if ($usuario['username'] === $username && password_verify ($password, $usuario['password'])){
+                
+            }
         }
     }
 }
