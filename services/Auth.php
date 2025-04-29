@@ -50,11 +50,11 @@ class Auth{
         $dir = dirname(ARQUIVO_USUARIOS);
 
         if (!is_dir($dir)){
-            mkdir($dir, 0777,) true;
+            mkdir($dir, 0777, true);
             // esse mkdir da autorização total para editar
         }
 
-        file_put_contents(ARQUIVO_USUARIOS, json_encode($this->usuarios,JSON_PREETY_PRINT));
+        file_put_contents(ARQUIVO_USUARIOS, json_encode($this->usuarios, JSON_PRETTY_PRINT));
     }
 
     // Metodo para realizar login
@@ -62,8 +62,40 @@ class Auth{
 
         foreach ($this -> usuarios as $usuario){
             if ($usuario['username'] === $username && password_verify ($password, $usuario['password'])){
-                
+                // inicia seçao
+                $_SESSION['auth'] = [
+                    'logado' => true,
+                    'username' => $username,
+                    'perfil' => $usuario['perfil']
+                ];
+                return true; // login realizado
             }
         }
+        // se o login nao realizar:
+        return false; // nao foi realizado o login
+    }
+
+    // logout
+    public function logout() : void{ //retorna vazio
+        session_destroy();
+    }
+
+    // funçao para verficar se o usuario está logado
+    public static function verificarLogin():bool{
+        return isset($_SESSION['auth']) && $_SESSION ['auth']['perfil'] === true;
+    }
+    // funçao para se tem perfil especifico
+    public static function isPerfil(string $perfil): bool{
+        return isset($_SESSION['auth']) && $_SESSION ['auth']['perfil'] === $perfil;
+    }
+    // funçao para ver se e administrador
+    public static function isAdmin():bool {
+        return self::isPerfil('admin');
+    }
+    // funçao para pegar dados do usuario
+
+    public static function getUsuarios(): ?array {
+        // retorna os dados da sessão ou nulo se não existir
+        return $_SESSION['auth'] ?? null;
     }
 }
