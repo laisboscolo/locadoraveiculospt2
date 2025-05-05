@@ -225,72 +225,22 @@ $usuario = Auth::getUsuarios();
 
                                                  <!-- botoes condicionais -->
                                                   <div class="rent-group">
+                                                    <?php if (!$veiculo->isDisponivel()): ?>
                                                     <!-- Veiculos alugado/devolver -->
                                                      <button class="btn btn-warning btn-sm" type="submit" name="devolver">Devolver</button>
-
+                                                        <?php else: ?>
                                                      <!-- veiculo disponivel -->
                                                       <!-- name e oq voce ta selecionando se fosse meses ia colocar meses /  required = obrigatorio -->
                                                       <input type="number" name="dias" class="form-control days-input" value="1" min="1" required>
                                                       <button class="btn btn-primary" name="alugar" type="submit">Alugar</button>
+                                                      <?php endif; ?>
                                                   </div>
                                             </form>  
                                         </div>
                                     </td>
                                     <?php endif; ?>
                                 </tr>
-
-                                <td>Moto</td>
-                                    <td>Shadow 750</td>
-                                    <td>RT1X39I</td>
-                                    <td><span class="badge bg-success">Disponivel ✅</span>
-                                    </td>
-                                    <td>
-                                        <div class="action-wrapper">
-                                            <form action="post" class="btn-group-actions">
-                                                <!-- botao deletar (sempre fica disponivel para o 'adm/Admin') -->
-                                                 <!-- delete-btn nao e do bootstrap vou fazer a classe -->
-                                                 <button class="btn btn-danger btn-sm delete-btn" type="submit" name="deletar">Deletar</button>
-
-                                                 <!-- botoes condicionais -->
-                                                  <div class="rent-group">
-                                                    <!-- Veiculos alugado/devolver -->
-                                                     <button class="btn btn-warning btn-sm" type="submit" name="devolver">Devolver</button>
-
-                                                     <!-- veiculo disponivel -->
-                                                      <!-- name e oq voce ta selecionando se fosse meses ia colocar meses /  required = obrigatorio -->
-                                                      <input type="number" name="dias" class="form-control days-input" value="1" min="1" required>
-                                                      <button class="btn btn-primary" name="alugar" type="submit">Alugar</button>
-                                                  </div>
-                                            </form>  
-                                        </div>
-                                    </td>
-                                </tr>
-                                <td>Moto</td>
-                                    <td>Strada cbx-200</td>
-                                    <td>12AGT8I</td>
-                                    <td><span class="badge bg-success">Disponivel ✅</span>
-                                    </td>
-                                    <td>
-                                        <div class="action-wrapper">
-                                            <form action="post" class="btn-group-actions">
-                                                <!-- botao deletar (sempre fica disponivel para o 'adm/Admin') -->
-                                                 <!-- delete-btn nao e do bootstrap vou fazer a classe -->
-                                                 <button class="btn btn-danger btn-sm delete-btn" type="submit" name="deletar">Deletar</button>
-
-                                                 <!-- botoes condicionais -->
-                                                  <div class="rent-group">
-                                                    <!-- Veiculos alugado/devolver -->
-                                                     <button class="btn btn-warning btn-sm" type="submit" name="devolver">Devolver</button>
-
-                                                     <!-- veiculo disponivel -->
-                                                      <!-- name e oq voce ta selecionando se fosse meses ia colocar meses /  required = obrigatorio -->
-                                                      <input type="number" name="dias" class="form-control days-input" value="1" min="1" required>
-                                                      <button class="btn btn-primary" name="alugar" type="submit">Alugar</button>
-                                                  </div>
-                                            </form>  
-                                        </div>
-                                    </td>
-                                </tr>
+                                 <?php endforeach; ?>                                                           
                             </tbody>
                         </table>
                     </div>
