@@ -60,6 +60,26 @@ class Locadora {
     }
 
     // funçao Remover veiculo
+    public function revomerVeiculo(string $modelo, $placa): string{
+        
+        foreach($this->veiculos as $key => $veiculo){
+            // ver se o medelo e placa pertence ao mesmo veiculo
+            // verifica se modelo e placa correspodem
+            if($veiculo->getModelo() === $modelo && $veiculo->getPlaca() === $placa ){
+                // remover veiculo do array / sempre que usa o this ta chamando um vetor
+                unset($this->veiculos[$key]);
+
+                // reorganizar os indices
+                $this->veiculos = array_values($this->veiculos);
+
+                // salvar novo estado
+                $this->salvarVeiculos();
+                return "Veiculo '{} removido com sucesso!";
+            }
+        }
+        // se caso nao for encontrado
+        return "Veiculo não encontrado";
+    }
 
     // funçao alugar veiculo por x dias
 
