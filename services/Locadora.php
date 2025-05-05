@@ -78,15 +78,63 @@ class Locadora {
             }
         }
         // se caso nao for encontrado
-        return "Veiculo não encontrado";
+        return "Veiculo não encontrado!";
     }
 
     // funçao alugar veiculo por x dias
+    // esse = 1 ta forçando voce alugar pelo menos um 1 dia
+    public function alugarVeiculo(string $modelo, int $dias = 1): string{
+
+        // percorre a lista de veiculos
+        foreach($this->veiculos as $veiculo){
+            // verfica se esta disponivel
+            if($veiculo->getModelo() === $modelo && $veiculo->isDisponivel()){
+
+                // calcular valor do aluguel
+                $valorAluguel = $veiculo->calcularAluguel($dias);
+
+                // Marcar como alugado/indisponivel
+                $mensagem = $veiculo->alugar();
+
+                // salvar novo estado do veiculo
+                $this->salvarVeiculos();
+
+                return $mensagem . "Valor do aluguel: R$" . number_format
+                ($valorAluguel, 2, ',', '.');
+                    // esse number format e pra formatar o valor
+                
+            }
+        }
+        return "veiculo não disponivel";
+    }
 
     // funçao devolver veiculo
+        public function devolverVeiculo(string $modelo) :string{
+
+        // percorrer a lista
+        foreach($this->veiculos as $veiculo){
+           
+            if($veiculo->getModelo() === $modelo && !$veiculo->isDisponivel()){
+                $mensagem = $veiculo->devolver();
+
+                $this->salvarVeiculos();
+                return $mensagem;
+            }
+        }
+        return "Veiculo já disponivel ou nâo encontrado.";
+    }
 
     // funçao retornar a lista de veiculos
+    public function listarVeiculos():array{
+        return $this->veiculos;
+    }
 
     // funçao calcular previsao do valor
-
+    public function calcularPrevisaoAlugue(string $tipo, int $dias): float {
+        
+        if($tipo === 'Carro'){
+            return(new Carro('',''))->calcularAluguel($dias);
+        }
+        return(new Moto('',''))->calcularAluguel($dias);
+    }
 }
