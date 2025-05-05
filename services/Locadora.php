@@ -130,7 +130,7 @@ class Locadora {
     }
 
     // funçao calcular previsao do valor
-    public function calcularPrevisaoAlugue(string $tipo, int $dias): float {
+    public function calcularPrevisaoAluguel(string $tipo, int $dias): float {
         
         if($tipo === 'Carro'){
             return(new Carro('',''))->calcularAluguel($dias);
