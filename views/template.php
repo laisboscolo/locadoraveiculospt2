@@ -175,81 +175,85 @@ $usuario = Auth::getUsuarios();
                 </div>
             </div>
         </div>
-
-        <!-- tabela de veiculos cadastrados -->
-        <div class="row mt-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="mb-0">
-                        <!-- mb- margin botton -->
-                        Veículos Cadastrados 🚗
-                    </h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <th>Tipo</th>
-                                <th>Modelo</th>
-                                <th>Placa</th>
-                                <th>Status</th>
-                                <!-- açoes so vai aparecer para o adm -->
-                                 <?php if (Auth::isAdmin()): ?>
-                                <th>Ações</th>
-                                <?php endif; ?>
-                            </thead>
-                            <tbody>
-                                <!-- exibir todo o backend -->
-                                 <?php foreach ($locadora->listarVeiculos() as $veiculo): ?>
-                                <tr>
-                                    <!-- tr = table row -->
-                                     <!-- td= dados da tabela/ php pq quer que ele mostra oq tem na tabela / ele pega la de veiculos ai ele vai comparar com o carro e se nao retornar como carro vai ser Moto -->
-                                    <td><?= $veiculo instanceof \Models\Carro ? 'Carro' : 'Moto' ?> </td>
-                                    <td><?= htmlspecialchars($veiculo->getModelo()) ?></td>
-                                    <td><?= htmlspecialchars($veiculo->getPlaca()) ?> </td>
-                                    <td><span class="badge bg-<?=$veiculo->isDisponivel() ? 'sucess' : 'warning' ?>">
+            <!-- terminar de identar da aqui pra cima -->
+            <!-- tabela de veiculos cadastrados -->
+            <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">
+                            <!-- mb- margin botton -->
+                            Veículos Cadastrados 🚗
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Tipo</th>
+                                        <th>Modelo</th>
+                                        <th>Placa</th>
+                                        <th>Status</th>
+                                        <!-- açoes so vai aparecer para o adm -->
+                                        <?php if (Auth::isAdmin()): ?>
+                                        <th>Ações</th>
+                                        <?php endif; ?>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- exibir todo o backend -->
+                                     <?php foreach ($locadora->listarVeiculos() as $veiculo): ?>
+                                    <tr>
+                                        <!-- tr = table row --> 
+                                         <!-- td= dados da tabela/ php pq quer que ele mostra oq tem na tabela / ele pega la de veiculos ai ele vai comparar com o carro e se nao retornar como carro vai ser Moto -->
+                                        <td><?= $veiculo instanceof \Models\Carro ? 'Carro' : 'Moto' ?> </td>
+                                        <td><?= htmlspecialchars($veiculo->getModelo()) ?></td>
+                                        <td><?= htmlspecialchars($veiculo->getPlaca()) ?> </td>
+                                        <td><span class="badge bg-<?=$veiculo->isDisponivel() ? 'sucess' : 'warning' ?>">   
                                         <?= $veiculo->isDisponivel() ? 'Disponivel' : 'Alugado' ?>
-                                    </span>
-                                    </td>
-                                    <?php if (Auth::isAdmin()): ?>
-                                    <td>
-                                        <div class="action-wrapper">
-                                            <form action="post" class="btn-group-actions">
-                                                <input type="hidden" name="modelo" value="<?= htmlspecialchars($veiculo->getModelo()) ?>">
+                                        </span>
+                                        </td>
+                                        <?php if (Auth::isAdmin()): ?>
+                                        <td>
+                                            <div class="action-wrapper">
+                                                <form action="post" class="btn-group-actions">
+                                                    <input type="hidden" name="modelo" value="<?= htmlspecialchars($veiculo->getModelo()) ?>">
 
-                                                <input type="hidden" name="placa" value="<?= htmlspecialchars($veiculo->getPlaca()) ?>">
-                                                <!-- botao deletar (sempre fica disponivel para o 'adm/Admin') -->
-                                                 <!-- delete-btn nao e do bootstrap vou fazer a classe -->
-                                                 <button class="btn btn-danger btn-sm delete-btn" type="submit" name="deletar">Deletar</button>
+                                                    <input type="hidden" name="placa" value="<?= htmlspecialchars($veiculo->getPlaca()) ?>">
+                                                    <!-- botao deletar (sempre fica disponivel para o 'adm/Admin') -->
+                                                     <!-- delete-btn nao e do bootstrap vou fazer a classe -->
+                                                     <button class="btn btn-danger btn-sm delete-btn" type="submit" name="deletar">Deletar</button>
 
-                                                 <!-- botoes condicionais -->
-                                                  <div class="rent-group">
-                                                    <?php if (!$veiculo->isDisponivel()): ?>
-                                                    <!-- Veiculos alugado/devolver -->
-                                                     <button class="btn btn-warning btn-sm" type="submit" name="devolver">Devolver</button>
-                                                        <?php else: ?>
-                                                     <!-- veiculo disponivel -->
-                                                      <!-- name e oq voce ta selecionando se fosse meses ia colocar meses /  required = obrigatorio -->
-                                                      <input type="number" name="dias" class="form-control days-input" value="1" min="1" required>
-                                                      <button class="btn btn-primary" name="alugar" type="submit">Alugar</button>
-                                                      <?php endif; ?>
-                                                  </div>
-                                            </form>  
-                                        </div>
-                                    </td>
-                                    <?php endif; ?>
-                                </tr>
+                                                     <!-- botoes condicionais -->
+                                                      <div class="rent-group">
+                                                        <?php if (!$veiculo->isDisponivel()): ?>
+                                                        <!-- Veiculos alugado/devolver -->
+                                                         <button class="btn btn-warning btn-sm" type="submit" name="devolver">Devolver</button>
+                                                           <?php else: ?>
+                                                         <!-- veiculo disponivel -->
+                                                          <!-- name e oq voce ta selecionando se fosse meses ia colocar meses /  required = obrigatorio -->
+                                                          <input type="number" name="dias" class="form-control days-input" value="1" min="1" required>
+                                                          <button class="btn btn-primary" name="alugar" type="submit">Alugar</button>
+                                                          <?php endif; ?>
+                                                      </div>
+                                                </form>  
+                                            </div>
+                                        </td>
+                                        <?php endif; ?>
+                                    </tr>   
                                  <?php endforeach; ?>                                                           
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
+<!-- bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 
 </body>
 </html>
