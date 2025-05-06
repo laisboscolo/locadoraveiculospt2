@@ -60,7 +60,7 @@ class Locadora {
     }
 
     // funçao Remover veiculo
-    public function revomerVeiculo(string $modelo, $placa): string{
+    public function removerVeiculo(string $modelo, $placa): string{
         
         foreach($this->veiculos as $key => $veiculo){
             // ver se o medelo e placa pertence ao mesmo veiculo
